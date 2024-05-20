@@ -1,0 +1,15 @@
+﻿<Page x:Class="ComService.Pages.PrintAplPageA"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:ComService.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="PrintAplPageA">
+
+    <Grid>
+        <WebBrowser Margin="15 65 15 15" x:Name="WbP" />
+        <Button x:Name="PrBtn" Click="PrBtn_Click" Content="Печать" Width="100" Height="40" Margin="0 0 20 10" HorizontalAlignment="Right" VerticalAlignment="Top" />
+    </Grid>
+</Page>

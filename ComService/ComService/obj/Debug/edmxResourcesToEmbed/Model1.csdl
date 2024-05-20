@@ -1,0 +1,139 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="SeerviceComModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="ApplicationUs">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ApplicationDateTime" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="StatusID" Type="Int32" Nullable="false" />
+    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Comid" Type="Int32" Nullable="false" />
+    <Property Name="DoneAplDateTime" Type="DateTime" Precision="3" />
+    <Property Name="Detailid" Type="Int32" />
+    <NavigationProperty Name="Detail" Relationship="Self.FK_ApplicationUs_Detail" FromRole="ApplicationUs" ToRole="Detail" />
+    <NavigationProperty Name="Status" Relationship="Self.FK_ApplicationUs_Status" FromRole="ApplicationUs" ToRole="Status" />
+    <Property Name="Worid" Type="Int32" />
+    <NavigationProperty Name="User" Relationship="SeerviceComModel.FK_ApplicationUs_User" FromRole="ApplicationUs" ToRole="User" />
+    <Property Name="DateTimeWorker" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="Detail">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DetailName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Quantity" Type="Int32" />
+    <NavigationProperty Name="ApplicationUs" Relationship="Self.FK_ApplicationUs_Detail" FromRole="Detail" ToRole="ApplicationUs" />
+  </EntityType>
+  <EntityType Name="Role">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Role1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="User" Relationship="Self.FK_User_Role" FromRole="Role" ToRole="User" />
+  </EntityType>
+  <EntityType Name="Status">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Status1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="ApplicationUs" Relationship="Self.FK_ApplicationUs_Status" FromRole="Status" ToRole="ApplicationUs" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Roleid" Type="Int32" Nullable="false" />
+    <Property Name="Login" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Role" Relationship="Self.FK_User_Role" FromRole="User" ToRole="Role" />
+    <NavigationProperty Name="ApplicationUs" Relationship="SeerviceComModel.FK_ApplicationUs_User" FromRole="User" ToRole="ApplicationUs" />
+  </EntityType>
+  <Association Name="FK_ApplicationUs_Detail">
+    <End Role="Detail" Type="Self.Detail" Multiplicity="0..1" />
+    <End Role="ApplicationUs" Type="Self.ApplicationUs" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Detail">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="ApplicationUs">
+        <PropertyRef Name="Detailid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ApplicationUs_Status">
+    <End Role="Status" Type="Self.Status" Multiplicity="1" />
+    <End Role="ApplicationUs" Type="Self.ApplicationUs" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Status">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="ApplicationUs">
+        <PropertyRef Name="StatusID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_User_Role">
+    <End Role="Role" Type="Self.Role" Multiplicity="1" />
+    <End Role="User" Type="Self.User" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Role">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="User">
+        <PropertyRef Name="Roleid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="SeerviceComEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="ApplicationUs" EntityType="Self.ApplicationUs" />
+    <EntitySet Name="Detail" EntityType="Self.Detail" />
+    <EntitySet Name="Role" EntityType="Self.Role" />
+    <EntitySet Name="Status" EntityType="Self.Status" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+    <EntitySet Name="User" EntityType="Self.User" />
+    <AssociationSet Name="FK_ApplicationUs_Detail" Association="Self.FK_ApplicationUs_Detail">
+      <End Role="Detail" EntitySet="Detail" />
+      <End Role="ApplicationUs" EntitySet="ApplicationUs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ApplicationUs_Status" Association="Self.FK_ApplicationUs_Status">
+      <End Role="Status" EntitySet="Status" />
+      <End Role="ApplicationUs" EntitySet="ApplicationUs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_User_Role" Association="Self.FK_User_Role">
+      <End Role="Role" EntitySet="Role" />
+      <End Role="User" EntitySet="User" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ApplicationUs_User" Association="SeerviceComModel.FK_ApplicationUs_User">
+      <End Role="User" EntitySet="User" />
+      <End Role="ApplicationUs" EntitySet="ApplicationUs" />
+    </AssociationSet>
+  </EntityContainer>
+  <Association Name="FK_ApplicationUs_User">
+    <End Type="SeerviceComModel.User" Role="User" Multiplicity="0..1" />
+    <End Type="SeerviceComModel.ApplicationUs" Role="ApplicationUs" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="ApplicationUs">
+        <PropertyRef Name="Worid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
